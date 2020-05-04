@@ -1,4 +1,4 @@
-#! /usr/bin/env python3
+# ! /usr/bin/env python3
 #
 # %BANNER_BEGIN%
 # ---------------------------------------------------------------------
@@ -56,7 +56,6 @@ from models.utils import (AverageTimer, VideoStreamer,
 
 torch.set_grad_enabled(False)
 
-
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(
         description='SuperGlue demo',
@@ -97,7 +96,7 @@ if __name__ == '__main__':
     parser.add_argument(
         '--nms_radius', type=int, default=4,
         help='SuperPoint Non Maximum Suppression (NMS) radius'
-        ' (Must be positive)')
+             ' (Must be positive)')
     parser.add_argument(
         '--sinkhorn_iterations', type=int, default=20,
         help='Number of Sinkhorn iterations performed by SuperGlue')
@@ -154,7 +153,7 @@ if __name__ == '__main__':
 
     frame_tensor = frame2tensor(frame, device)
     last_data = matching.superpoint({'image': frame_tensor})
-    last_data = {k+'0': last_data[k] for k in keys}
+    last_data = {k + '0': last_data[k] for k in keys}
     last_data['image0'] = frame_tensor
     last_frame = frame
     last_image_id = 0
@@ -166,7 +165,7 @@ if __name__ == '__main__':
     # Create a window to display the demo.
     if not opt.no_display:
         cv2.namedWindow('SuperGlue matches', cv2.WINDOW_NORMAL)
-        cv2.resizeWindow('SuperGlue matches', (640*2, 480))
+        cv2.resizeWindow('SuperGlue matches', (640 * 2, 480))
     else:
         print('Skipping visualization, will not show a GUI.')
 
@@ -224,7 +223,7 @@ if __name__ == '__main__':
                 print('Exiting (via q) demo_superglue.py')
                 break
             elif key == 'n':  # set the current frame as anchor
-                last_data = {k+'0': pred[k+'1'] for k in keys}
+                last_data = {k + '0': pred[k + '1'] for k in keys}
                 last_data['image0'] = frame_tensor
                 last_frame = frame
                 last_image_id = (vs.i - 1)
@@ -232,14 +231,14 @@ if __name__ == '__main__':
                 # Increase/decrease keypoint threshold by 10% each keypress.
                 d = 0.1 * (-1 if key == 'e' else 1)
                 matching.superpoint.config['keypoint_threshold'] = min(max(
-                    0.0001, matching.superpoint.config['keypoint_threshold']*(1+d)), 1)
+                    0.0001, matching.superpoint.config['keypoint_threshold'] * (1 + d)), 1)
                 print('\nChanged the keypoint threshold to {:.4f}'.format(
                     matching.superpoint.config['keypoint_threshold']))
             elif key in ['d', 'f']:
                 # Increase/decrease match threshold by 0.05 each keypress.
                 d = 0.05 * (-1 if key == 'd' else 1)
                 matching.superglue.config['match_threshold'] = min(max(
-                    0.05, matching.superglue.config['match_threshold']+d), .95)
+                    0.05, matching.superglue.config['match_threshold'] + d), .95)
                 print('\nChanged the match threshold to {:.2f}'.format(
                     matching.superglue.config['match_threshold']))
             elif key == 'k':
@@ -249,7 +248,7 @@ if __name__ == '__main__':
         timer.print()
 
         if opt.output_dir is not None:
-            #stem = 'matches_{:06}_{:06}'.format(last_image_id, vs.i-1)
+            # stem = 'matches_{:06}_{:06}'.format(last_image_id, vs.i-1)
             stem = 'matches_{:06}_{:06}'.format(stem0, stem1)
             out_file = str(Path(opt.output_dir, stem + '.png'))
             print('\nWriting image to {}'.format(out_file))
